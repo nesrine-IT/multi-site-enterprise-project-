@@ -1,1 +1,21 @@
-
+## Creating  VLANs on distribution switch:
+DS-1(config)#vlan 93
+DS-1(config-vlan)#name IT
+DS-1(config-vlan)#vlan 94
+DS-1(config-vlan)#name sales
+DS-1(config-vlan)#vlan 95
+DS-1(config-vlan)#name accounting
+DS-1(config-vlan)#vlan  96
+DS-1(config-vlan)#name HR
+DS-1(config-vlan)#vlan 97 
+DS-1(config-vlan)#name servers
+## configuring trunk ports on DS 1:
+DS-1(config-if-range)#int range g1/0/1-2
+DS-1(config-if-range)#switchport mode trunk
+DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
+## Configuring Etherchannel PAgp on DS 1:
+DS-1(config-if-range)#int range g1/0/3-4
+DS-1(config-if-range)#channel-group 1 mode on
+DS-1(config-if-range)#int range g1/0/3-4
+DS-1(config-if-range)#channel-group 1 mode on
+DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
