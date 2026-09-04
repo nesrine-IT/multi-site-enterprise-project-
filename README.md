@@ -1,4 +1,4 @@
-# multi-site-enterprise-project-
+# multi-site-enterprise-project
 ## Description 
 This project simulates a highly-available multi-site enterprise network consisting of headquarter and branch using cisco technologies in cisco packet tracer . it focuses on :
 * Network segmentation
@@ -47,8 +47,10 @@ in this project vlan 93,94 are gathered in group 1 with priority 200 in Multi-La
 In HQ site , Multi-Layer Switches are used for inter-vlan routing ,so SVIs are used to provide layer-gateways for  VLANs.
 ### Router On Stick (ROS)
 in the branch site , the access switch is directly connected to edge router on a trunk interface. on the router we configure sub-interfaces tagged with 801.1Q to perform routing between vlans.
-### Static routing :
+### Static routing 
 In HQ ,default routing was configured on MLS1,2 to forward any packet going to external network to next hop which is the router interfaces 10.0.255.1/5. and static routing was configured on the router to foward back the internet packet to MLS1, through 10.0.255.2/5 interfaces.
-### OSPF routing:
-OSPF was configured between routers in order to exchange routing tables and calculating the shortest path without needing to configure each one statically
+### OSPF routing
+OSPF was configured between routers in order to exchange routing tables and calculating the shortest path without needing to configure each one statically.
+### NAT/PAT
+NAT is configured on internal and external interfaces of router to translate private IP addresses to the public address 20.0.0.2using different ports.
 
