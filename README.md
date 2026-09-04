@@ -53,4 +53,5 @@ In HQ ,default routing was configured on MLS1,2 to forward any packet going to e
 OSPF was configured between routers in order to exchange routing tables and calculating the shortest path without needing to configure each one statically.
 ### NAT/PAT
 NAT is configured on internal and external interfaces of router to translate private IP addresses to the public address 20.0.0.2using different ports.
-
+ # Network security 
+ 
