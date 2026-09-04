@@ -13,9 +13,67 @@ DS-1(config-vlan)#name servers
 DS-1(config-if-range)#int range g1/0/1-2
 DS-1(config-if-range)#switchport mode trunk
 DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
-## Configuring Etherchannel PAgp on DS 1:
+## Configuring Etherchannel on DS 1:
 DS-1(config-if-range)#int range g1/0/3-4
 DS-1(config-if-range)#channel-group 1 mode on
-DS-1(config-if-range)#int range g1/0/3-4
-DS-1(config-if-range)#channel-group 1 mode on
+DS-1(config-if-range)#int port-channel 1
 DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
+## configuring HSRP on DS1:
+first we configure interface vlans on MLS:
+DS-1(config)#int vlan 93
+DS-1(config-if)#ip add 172.16.1.3 255.255.255.128
+DS-1(config-if)#int vlan 94
+
+DS-1(config-if)#ip add 172.16.1.131 255.255.255.128
+DS-1(config-if)#int vlan 95
+DS-1(config-if)#ip add 172.16.2.2 255.255.255.128
+DS-1(config-if)#int vlan 96
+DS-1(config-if)#ip add 172.16.2.130 255.255.255.128
+DS-1(config-if)#int vlan 97
+DS-1(config-if)#ip add 172.16.3.2 255.255.255.240
+## HSRP configuration:
+DS-1(config)#int vlan 93
+DS-1(config-if)#standby 1 ip 172.16.1.1
+DS-1(config-if)#standby 1 priority 200
+DS-1(config)#int vlan 94
+DS-1(config-if)#standby 1 ip 172.16.1.129
+DS-1(config-if)#stanby 1 priority 200
+DS-1(config)#int vlan 95
+DS-1(config-if)#standby 2 ip 172.16.2.1
+DS-1(config-if)#standby 2 priority 100
+DS-1(config)#int vlan 96
+DS-1(config-if)#standby 2 ip 172.16.2.129
+DS-1(config-if)#stanby 2 priority 100
+## PVST configuration on DS2:
+DS-2(config)#spanning-tree vlan 95,96,97 root primary 
+DS-2(config)#spanning-tree vlan 93,94 root secondary 
+##  DHCP-Relay
+DS-2(config)#int range vlan 93-96
+DS-2(config-if-range)#ip helper-address 172.16.3.4
+## configuring access port + port fast + port security 
+AS-1(config-if-range)#switchport mode access 
+AS-1(config-if-range)#switchport access vlan 93
+AS-1(config-if-range)#spanning-tree portfast 
+AS-1(config-if-range)#switchport port-security maximum 1
+AS-1(config-if-range)#switchport port-security mac-address sticky 
+AS-1(config-if-range)#switchport port-security violation restrict 
+routing  from multi-layer switch to edge router 
+DS-1(config)#int g1/0/5
+DS-1(config-if)#no switchport 
+DS-1(config-if)#ip add 10.0.255.2 255.255.255.252
+DS-1(config-if)#ip route 0.0.0.0 0.0.0.0 10.0.255.1
+routing back from router to MLS1 and 2
+edge-router(config)#ip route 172.16.0.0 255.255.252.0 10.0.255.2
+edge-router(config)#ip route 172.16.0.0 255.255.252.0 10.0.255.6
+## configuring ACL and NAT on edge router
+edge-router(config)#ip access-list extended NAT
+edge-router(config-ext-nacl)#deny ip 172.16.0.0 0.0.3.255 192.168.0.0 0.0.0.127
+edge-router(config-ext-nacl)#permit ip 172.16.0.0 0.0.3.255 any 
+edge-router(config-ext-nacl)# ip nat inside source list NAT int s0/1/0 overload
+edge-router(config)#int s0/1/0
+edge-router(config-if)#ip nat outside
+edge-router(config-if)#int range g0/0/0-1
+edge-router(config-if-range)#ip nat inside 
+
+
+
