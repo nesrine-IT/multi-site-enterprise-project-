@@ -20,7 +20,7 @@ The HQ network is divided into four offices . Each one has its own VLAN and subn
 
 The Branch contains:
 
-| Department | Network |
+| Office | Network |
 |---|---|
 | HR | `192.168.0.0/27` |
 | Accounting | `192.168.0.32/27` |
@@ -50,6 +50,5 @@ in the branch site , the access switch is directly connected to edge router on a
 ### Static routing :
 In HQ ,default routing was configured on MLS1,2 to forward any packet going to external network to next hop which is the router interfaces 10.0.255.1/5. and static routing was configured on the router to foward back the internet packet to MLS1, through 10.0.255.2/5 interfaces.
 ### OSPF routing:
-
-
+OSPF was configured between routers in order to exchange routing tables and calculating the shortest path without needing to configure each one statically
 
