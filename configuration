@@ -74,6 +74,21 @@ edge-router(config)#int s0/1/0
 edge-router(config-if)#ip nat outside
 edge-router(config-if)#int range g0/0/0-1
 edge-router(config-if-range)#ip nat inside 
+## configuring VPN :
+edge-router(config)#crypto isakmp policy 10
+edge-router(config-isakmp)#authentication pre-share 
+edge-router(config-isakmp)#hash sha 
+edge-router(config-isakmp)#encryption aes 
+edge-router(config-isakmp)#group 5
+edge-router(config-isakmp)#lifetime 86400
+edge-router(config)#crypto isakmp key  cisco123 address 41.207.31.2
+edge-router(config)#crypto ipsec transform-set VPN-SET esp-aes 256 esp-sha-hmac 
+edge-router(config)#crypto map VPN-MAP 10 ipsec-isakmp 
+edge-router(config-crypto-map)#set peer 41.207.31.2
+edge-router(config-crypto-map)#set transform-set VPN-SET
+edge-router(config-crypto-map)#match address VPN-TRAFFIC
+edge-router(config-crypto-map)#int s0/1/0
+edge-router(config-if)#crypto map VPN-MAP
 
 
 
