@@ -45,8 +45,8 @@ in this project vlan 93,94 are gathered in group 1 with priority 200 in Multi-La
 
 ### Switch Virtual Interface (SVI)
 In HQ site , Multi-Layer Switches are used for inter-vlan routing ,so SVIs are used to provide layer-gateways for  VLANs.
-### Router On Stick (ROS)
-in the branch site , the access switch is directly connected to edge router on a trunk interface. on the router we configure sub-interfaces tagged with 801.1Q to perform routing between vlans.
+### Router On a Stick (ROaS)
+In the branch site , the access switch is directly connected to edge router on a trunk interface. on the router we configure sub-interfaces tagged with 801.1Q to perform routing between vlans.
 ### Static routing 
 In HQ ,default routing was configured on MLS1,2 to forward any packet going to external network to next hop which is the router interfaces 10.0.255.1/5. and static routing was configured on the router to foward back the internet packet to MLS1, through 10.0.255.2/5 interfaces.
 ### OSPF routing
@@ -54,4 +54,13 @@ OSPF was configured between routers in order to exchange routing tables and calc
 ### NAT/PAT
 NAT is configured on internal and external interfaces of router to translate private IP addresses to the public address 20.0.0.2using different ports.
  # Network security 
+### Access-lists 
+Access-lists are filter traffic ,to determine which vlans are allowed to use external networks , and which are allowed to access network devices through **ssh** , in this lab there are 3 necessary ACLs:
+* NAT access-list to allow users access internet using public IP for network security.
+* VPN access-list to allow
+* SSH access-list to allow only management vlan access network devices.
+  ### Port-security
+  port security are configured on access ports to allow only one device to be connected and its mac address is detected automatically while plugging the device.
+  
+ 
  
