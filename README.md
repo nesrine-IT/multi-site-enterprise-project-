@@ -8,7 +8,7 @@ This project simulates a highly-available multi-site enterprise network consisti
 * centralized services
 * secure communication between sites "VPN"
 ## Network architecture 
-The HQ network is divided into four offices . Each one has its own VLAN . There are additional subnets Vlans that are used is for company's severs and management traffic as follows:
+The HQ network is divided into four offices . Each one has its own VLAN . There are additional subnets and Vlans that are used for company's severs and management traffic as follows:
 
 | VLAN | Office     | Network       |
 | ---- | ---------- | -----------   |
@@ -30,7 +30,8 @@ The Branch contains three Vlans for offices "HR,Accounting and Marketing" and an
 
 # Topology
 HeadQuarter Site : it consists of two access switches for and two Multi-Layer Switches (MLS) for inter-vlan routing .DHCP server  as a centralized service for automatically assigning IP configuration to devices, and a an edge router for external internet connexion.
-Branch Site : it consists of one switch to attach all vlans and one router that performs both inter-vlan and external internet routing.
+
+Branch Site : it consists of one switch to attach all vlans , one router that performs both inter-vlan and external internet routing and Access Point (AP) for wireless connection of laptops corresponding to each vlan to the network.
 
 <img width="1540" height="607" alt="cis" src="https://github.com/user-attachments/assets/0e222d76-0168-40fa-95d9-f831449c58f3" />
 
@@ -41,14 +42,18 @@ Branch Site : it consists of one switch to attach all vlans and one router that 
 VLANs are used to logically separate offices and reduce unnecessary Layer 2 broadcast traffic.
 ### EtherChannel
 
-EtherChannel is used to combine multiple physical links into a single logical connection  in order to provide link redundancy ,increase bandwidth  and avoid STP.
+EtherChannel is used to combine multiple physical links into a single logical connection  in order to provide link redundancy ,increase bandwidth  and avoid STP port blocking.
 ### PVST
 
 instead of blocking ports by STP permanently to avoid layer 2 loops and wasting the use of the redundant switches,PVST is applied on MLS1 and MLS2 to determine which path should be forwarding traffic and which one remains blocked . In case of this project vlan 93,94,99 will be forwarded by MLS1 and blocked by MLS2 and vice versa for vlan 95,96,97
 ### HSRP
 
 HSRP provides first-hop redundancy for the internal VLANs. Instead of hosts relying directly on a single physical Layer 3 switch as their default gateway, they use a **virtual IP address** shared between the redundant distribution switches. Where the active MLS use higher priority and standby use lower priority.
-in this project vlan 93,94 are gathered in group 1 with priority 200 in Multi-Layer Switch 1 which makes it the main gateway and priority 100 in MLS2 to take over when MLS1 falls down . vlan 95,96,97 are grouped into group numbered 2 with priority 200 in MLS2 and priority 100 in MLS1.
+in this project vlan 93,94 are gathered in group 1 with priority 200 in Multi-Layer Switch 1 which makes it the main gateway and priority 100 in MLS2 to take over when MLS1 falls down .While vlan 95,96,97 are gathered into group numbered 2 with priority 200 in MLS2 and priority 100 in MLS1.
+
+###  Wireless LAN:
+in branch site , instead of using wired connection between end devices and access switch , access points are used for wireless connection and they provide vlan segementation as a normal switch. the link between AP and SW is a trunk.
+
 # Routing 
 
 ### Switch Virtual Interface (SVI)
