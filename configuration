@@ -1,4 +1,6 @@
-## Creating  VLANs on distribution switch:
+Site A configuration:
+
+Creating  VLANs on distribution switch:
 DS-1(config)#vlan 93
 DS-1(config-vlan)#name IT
 DS-1(config-vlan)#vlan 94
@@ -9,21 +11,25 @@ DS-1(config-vlan)#vlan  96
 DS-1(config-vlan)#name HR
 DS-1(config-vlan)#vlan 97 
 DS-1(config-vlan)#name servers
-## configuring trunk ports on DS 1:
+DS-1(config-vlan)#vlan 99 
+DS-1(config-vlan)#name management
+
+Configuring trunk ports on DS 1:
 DS-1(config-if-range)#int range g1/0/1-2
 DS-1(config-if-range)#switchport mode trunk
-DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
-## Configuring Etherchannel on DS 1:
+DS-1(config-if-range)#switchport trunk allowed vlan 93,94,95,96,97,99
+
+Configuring Etherchannel on DS 1:
 DS-1(config-if-range)#int range g1/0/3-4
 DS-1(config-if-range)#channel-group 1 mode on
 DS-1(config-if-range)#int port-channel 1
-DS-1(config-if-range)#switchport trunk allowed vlan 1,93,94,95,96,97,99
-## configuring HSRP on DS1:
-first we configure interface vlans on MLS:
+DS-1(config-if-range)#switchport trunk allowed vlan 93,94,95,96,97,99
+
+Configuring HSRP on DS1:
+1-first we configure interface vlans on MLS:
 DS-1(config)#int vlan 93
 DS-1(config-if)#ip add 172.16.1.3 255.255.255.128
 DS-1(config-if)#int vlan 94
-
 DS-1(config-if)#ip add 172.16.1.131 255.255.255.128
 DS-1(config-if)#int vlan 95
 DS-1(config-if)#ip add 172.16.2.2 255.255.255.128
@@ -31,7 +37,10 @@ DS-1(config-if)#int vlan 96
 DS-1(config-if)#ip add 172.16.2.130 255.255.255.128
 DS-1(config-if)#int vlan 97
 DS-1(config-if)#ip add 172.16.3.2 255.255.255.240
-## HSRP configuration:
+DS-1(config-if)#int vlan 99
+DS-1(config-if)#ip add 172.16.99.3 255.255.255.0
+
+2-HSRP configuration:
 DS-1(config)#int vlan 93
 DS-1(config-if)#standby 1 ip 172.16.1.1
 DS-1(config-if)#standby 1 priority 200
@@ -44,28 +53,34 @@ DS-1(config-if)#standby 2 priority 100
 DS-1(config)#int vlan 96
 DS-1(config-if)#standby 2 ip 172.16.2.129
 DS-1(config-if)#stanby 2 priority 100
-## PVST configuration on DS2:
+
+PVST configuration on DS2:
 DS-2(config)#spanning-tree vlan 95,96,97 root primary 
-DS-2(config)#spanning-tree vlan 93,94 root secondary 
-##  DHCP-Relay
-DS-2(config)#int range vlan 93-96
+DS-2(config)#spanning-tree vlan 93,94,99 root secondary 
+
+DHCP-Relay
+DS-2(config)#int range vlan 93-96 , vlan 99
 DS-2(config-if-range)#ip helper-address 172.16.3.4
-## configuring access port + port fast + port security 
+
+Configuring access port + port fast + port security 
 AS-1(config-if-range)#switchport mode access 
 AS-1(config-if-range)#switchport access vlan 93
 AS-1(config-if-range)#spanning-tree portfast 
 AS-1(config-if-range)#switchport port-security maximum 1
 AS-1(config-if-range)#switchport port-security mac-address sticky 
 AS-1(config-if-range)#switchport port-security violation restrict 
-routing  from multi-layer switch to edge router 
+
+Routing  from multi-layer switch to edge router 
 DS-1(config)#int g1/0/5
 DS-1(config-if)#no switchport 
 DS-1(config-if)#ip add 10.0.255.2 255.255.255.252
 DS-1(config-if)#ip route 0.0.0.0 0.0.0.0 10.0.255.1
-routing back from router to MLS1 and 2
+
+Routing back from router to MLS1 and 2
 edge-router(config)#ip route 172.16.0.0 255.255.252.0 10.0.255.2
 edge-router(config)#ip route 172.16.0.0 255.255.252.0 10.0.255.6
-## configuring ACL and NAT on edge router
+
+Configuring ACL and NAT on edge router
 edge-router(config)#ip access-list extended NAT
 edge-router(config-ext-nacl)#deny ip 172.16.0.0 0.0.3.255 192.168.0.0 0.0.0.127
 edge-router(config-ext-nacl)#permit ip 172.16.0.0 0.0.3.255 any 
@@ -73,8 +88,9 @@ edge-router(config-ext-nacl)# ip nat inside source list NAT int s0/1/0 overload
 edge-router(config)#int s0/1/0
 edge-router(config-if)#ip nat outside
 edge-router(config-if)#int range g0/0/0-1
-edge-router(config-if-range)#ip nat inside 
-## configuring VPN :
+edge-router(config-if-range)#ip nat inside
+
+Configuring VPN :
 edge-router(config)#crypto isakmp policy 10
 edge-router(config-isakmp)#authentication pre-share 
 edge-router(config-isakmp)#hash sha 
@@ -89,6 +105,17 @@ edge-router(config-crypto-map)#set transform-set VPN-SET
 edge-router(config-crypto-map)#match address VPN-TRAFFIC
 edge-router(config-crypto-map)#int s0/1/0
 edge-router(config-if)#crypto map VPN-MAP
+
+Configuring SSH:
+edge-router(config)#ip domain-name cisco.com
+edge-router(config)#username admin secret cisco123!
+edge-router(config)#crypto key generate rsa general-keys modulus 1024
+edge-router(config)#ip access-list standard SSH
+edge-router(config-std-nacl)#permit 172.16.99.0 255.255.255.0 
+edge-router(config-std-nacl)#line vty 0 4
+edge-router(config-line)#transport input ssh
+edge-router(config-line)#access-class SSH in
+edge-router(config-line)#login local 
 
 
 
