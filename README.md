@@ -52,7 +52,8 @@ HSRP provides first-hop redundancy for the internal VLANs. Instead of hosts rely
 in this project vlan 93,94 are gathered in group 1 with priority 200 in Multi-Layer Switch 1 which makes it the main gateway and priority 100 in MLS2 to take over when MLS1 falls down .While vlan 95,96,97 are gathered into group numbered 2 with priority 200 in MLS2 and priority 100 in MLS1.
 
 ###  Wireless LAN:
-in branch site , instead of using wired connection between end devices and access switch , access points are used for wireless connection and they provide vlan segementation as a normal switch. the link between AP and SW is a trunk.
+In branch site , instead of using wired connection between end devices and access switch , access points are used for wireless connection and they provide vlan segementation as a normal switch. the link between AP and SW is a trunk.
+The wireless lan uses Wireless Contoller (WLC) that provide  for each vlan a specified SSID when the end devices try to connect the AP use them.
 
 # Routing 
 
@@ -65,7 +66,7 @@ In HQ ,default routing was configured on MLS1,2 to forward any packet going to e
 ### OSPF routing
 OSPF was configured between routers in order to exchange routing tables and calculating the shortest path without needing to configure each one statically.
 ### NAT/PAT
-NAT is configured on internal and external interfaces of router to translate private IP addresses to the public address 20.0.0.2using different ports.
+NAT is configured on internal and external interfaces of router to translate private IP addresses to the public address 20.0.0.2 using different ports.
 # Network security 
 ### Access-lists 
 Access-lists are filter traffic ,to determine which vlans are allowed to use external networks , and which are allowed to access network devices through **ssh** , in this lab there are 3 necessary ACLs:
