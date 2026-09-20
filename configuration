@@ -14,13 +14,14 @@ DS-1(config-vlan)#name servers
 DS-1(config-vlan)#vlan 99 
 DS-1(config-vlan)#name management
 
-Configuring trunk ports on DS 1:
+Configuring trunk ports on DS 1 " connected to access switches":
 DS-1(config-if-range)#int range g1/0/1-2
 DS-1(config-if-range)#switchport mode trunk
+DS-1(config-if-range)#switchport nonegotiate
 DS-1(config-if-range)#switchport trunk allowed vlan 93,94,95,96,97,99
 
 Configuring Etherchannel on DS 1:
-DS-1(config-if-range)#int range g1/0/3-4
+DS-1(config-if-range)#int range g1/0/3-4 ,  g1/0/7-8
 DS-1(config-if-range)#channel-group 1 mode on
 DS-1(config-if-range)#int port-channel 1
 DS-1(config-if-range)#switchport trunk allowed vlan 93,94,95,96,97,99
@@ -44,15 +45,25 @@ DS-1(config-if)#ip add 172.16.99.3 255.255.255.0
 DS-1(config)#int vlan 93
 DS-1(config-if)#standby 1 ip 172.16.1.1
 DS-1(config-if)#standby 1 priority 200
+DS-1(config-if)#standby preempt
 DS-1(config)#int vlan 94
 DS-1(config-if)#standby 1 ip 172.16.1.129
 DS-1(config-if)#stanby 1 priority 200
+DS-1(config-if)#standby preempt
 DS-1(config)#int vlan 95
 DS-1(config-if)#standby 2 ip 172.16.2.1
 DS-1(config-if)#standby 2 priority 100
 DS-1(config)#int vlan 96
 DS-1(config-if)#standby 2 ip 172.16.2.129
 DS-1(config-if)#stanby 2 priority 100
+DS-1(config)#int vlan 99
+DS-1(config-if)#standby 1 ip 172.16.99.1
+DS-1(config-if)#stanby 1 priority 200
+DS-1(config-if)#standby preempt
+
+PVST configuration on DS1:
+DS-1(config)#spanning-tree vlan 93,94,99 root primary 
+DS-1(config)#spanning-tree vlan 95,96,97 root secondary 
 
 PVST configuration on DS2:
 DS-2(config)#spanning-tree vlan 95,96,97 root primary 
@@ -62,7 +73,7 @@ DHCP-Relay
 DS-2(config)#int range vlan 93-96 , vlan 99
 DS-2(config-if-range)#ip helper-address 172.16.3.4
 
-Configuring access port + port fast + port security 
+Configuring access port + port fast + port security " example of access switch 1":
 AS-1(config-if-range)#switchport mode access 
 AS-1(config-if-range)#switchport access vlan 93
 AS-1(config-if-range)#spanning-tree portfast 
@@ -70,7 +81,7 @@ AS-1(config-if-range)#switchport port-security maximum 1
 AS-1(config-if-range)#switchport port-security mac-address sticky 
 AS-1(config-if-range)#switchport port-security violation restrict 
 
-Routing  from multi-layer switch to edge router 
+Routing  from multi-layer switch to edge router " example on Multi-Layer Switch 1"
 DS-1(config)#int g1/0/5
 DS-1(config-if)#no switchport 
 DS-1(config-if)#ip add 10.0.255.2 255.255.255.252
