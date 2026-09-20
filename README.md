@@ -33,7 +33,9 @@ HeadQuarter Site : it consists of two access switches for and two Multi-Layer Sw
 
 Branch Site : it consists of one switch to attach all vlans , one router that performs both inter-vlan and external internet routing and Access Point (AP) for wireless connection of laptops corresponding to each vlan to the network.
 
-<img width="1540" height="607" alt="cis" src="https://github.com/user-attachments/assets/0e222d76-0168-40fa-95d9-f831449c58f3" />
+<img width="1551" height="699" alt="Screenshot 2026-09-17 192706" src="https://github.com/user-attachments/assets/e43bf5db-f35b-4cc1-8cf4-5ebc352cfcb6" />
+                                           figure [1] Network architecture
+
 
 # Switching
 
@@ -75,6 +77,15 @@ Access-lists are filter traffic ,to determine which vlans are allowed to use ext
 * SSH access-list to allow only management vlan access network devices.
 ### Port-security
 port security are configured on access ports to allow only one device to be connected and its mac address is detected automatically while plugging the device.
-  
+
+### Results
+The idea of the project has been realized , vlans can ping withing the same LAN using  MLS in HQ and using router in branch site. end devices can be transmitted over external networks using NAT , and finally the multi-site main concept has worked where end devices in HQ can end devices in Branch using private IPs .
+Here are some screenshots to confirm the results 
+
+<img width="262" height="126" alt="Screenshot 2026-09-20 214058" src="https://github.com/user-attachments/assets/6562aac8-d702-4322-a274-987fd888efd6" />
+                                        figure [2] HSRP configuration on MLS1
+<img width="812" height="277" alt="Screenshot 2026-09-20 214251" src="https://github.com/user-attachments/assets/42c5eea2-e7ee-4da0-aaa1-0b25fc1e0109" />
+                                        figure [3] DHCP server configuration
+                                        
  
  
