@@ -85,9 +85,13 @@ The idea of the project has been realized , vlans can ping withing the same LAN 
 Here are some screenshots to confirm the results 
 
 <img width="262" height="126" alt="Screenshot 2026-09-20 214058" src="https://github.com/user-attachments/assets/6562aac8-d702-4322-a274-987fd888efd6" />
-                                        figure [2] HSRP configuration on MLS1
+                                   <p align="center">
+  <i>Figure [2]: HSRP Configuration on MLS1 </i>
+</p>
 <img width="812" height="277" alt="Screenshot 2026-09-20 214251" src="https://github.com/user-attachments/assets/42c5eea2-e7ee-4da0-aaa1-0b25fc1e0109" />
-                                        figure [3] DHCP server configuration
+                                       <p align="center">
+  <i>Figure [1]: DHCP Server Configuration </i>
+</p>
                                         
  
  
