@@ -64,7 +64,7 @@ The wireless lan uses Wireless Contoller (WLC) that provide  for each vlan a spe
 ### Switch Virtual Interface (SVI)
 In HQ site , Multi-Layer Switches are used for inter-vlan routing ,so SVIs are used to provide layer-gateways for  VLANs.
 ### Router On a Stick (ROaS)
-In the branch site , the access switch is directly connected to edge router on a trunk interface. on the router we configure sub-interfaces tagged with 801.1Q to perform routing between vlans.
+In the branch site , the access switch is directly connected to edge router through a trunk interface. on the router we configure sub-interfaces tagged with 801.1Q to perform routing between vlans.
 ### Static routing 
 In HQ ,default routing was configured on MLS1,2 to forward any packet going to external network to next hop which is the router interfaces 10.0.255.1/5. and static routing was configured on the router to foward back the internet packet to MLS1, through 10.0.255.2/5 interfaces.
 ### OSPF routing
@@ -78,19 +78,22 @@ Access-lists are filter traffic ,to determine which vlans are allowed to use ext
 * VPN access-list to allow users access site A and B ressources as they are in the same place using private IPs
 * SSH access-list to allow only management vlan access network devices.
 ### Port-security
-port security are configured on access ports to allow only one device to be connected and its mac address is detected automatically while plugging the device.
+port security are configured on access ports to allow only one device to be connected to switchport and its mac address is detected automatically while plugging the device.
 
 ### Results
 The idea of the project has been realized , vlans can ping withing the same LAN using  MLS in HQ and using router in branch site. end devices can be transmitted over external networks using NAT , and finally the multi-site main concept has worked where end devices in HQ can end devices in Branch using private IPs .
 Here are some screenshots to confirm the results 
-
+<p align="center">
 <img width="262" height="126" alt="Screenshot 2026-09-20 214058" src="https://github.com/user-attachments/assets/6562aac8-d702-4322-a274-987fd888efd6" />
-                                   <p align="center">
-  <i>Figure [2]: HSRP Configuration on MLS1 </i>
+ <p/>
+ <p align="center">
+ <i>Figure [2]: HSRP Configuration on MLS1 </i>
 </p>
+<p=align"center">
 <img width="812" height="277" alt="Screenshot 2026-09-20 214251" src="https://github.com/user-attachments/assets/42c5eea2-e7ee-4da0-aaa1-0b25fc1e0109" />
-                                       <p align="center">
-  <i>Figure [1]: DHCP Server Configuration </i>
+ <p/>
+<p align="center">
+<i>Figure [1]: DHCP Server Configuration </i>
 </p>
                                         
  
