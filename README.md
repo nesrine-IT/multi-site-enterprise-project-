@@ -34,7 +34,7 @@ HeadQuarter Site : it consists of two access switches for and two Multi-Layer Sw
 Branch Site : it consists of one switch to attach all vlans , one router that performs both inter-vlan and external internet routing and Access Point (AP) for wireless connection of laptops corresponding to each vlan to the network.
 
 <img width="1551" height="699" alt="Screenshot 2026-09-17 192706" src="https://github.com/user-attachments/assets/e43bf5db-f35b-4cc1-8cf4-5ebc352cfcb6" />
-                                           figure [1] Network architecture
+                                                               figure [1] Network architecture
 
 
 # Switching
