@@ -81,8 +81,12 @@ Access-lists are filter traffic ,to determine which vlans are allowed to use ext
 port security are configured on access ports to allow only one device to be connected to switchport and its mac address is detected automatically while plugging the device.
 
 ### Results
-The idea of the project has been realized , vlans can ping withing the same LAN using  MLS in HQ and using router in branch site. end devices can be transmitted over external networks using NAT , and finally the multi-site main concept has worked where end devices in HQ can end devices in Branch using private IPs .
-Here are some screenshots to confirm the results 
+The idea of the project has been realized:
+* End devices can reach one another by inter-vlan routing within same LAN using  SVIs in HQ site and ROaS in the branch site. 
+* High availabity and load sharing is achieved by HSRP and PVST techniques on Multi-layer Switches in HQ.
+* End devices can reach internet " external networks" using static and default routing inside LAN , and dynamic routing OSPF on external routers.
+* LAN is secured using NAT and access-lists.
+* VPN connectivity has worked by creating vpn code on both HQ and Branch routers. 
 <p align="center">
 <img width="632" height="156" alt="Screenshot 2026-09-20 214105" src="https://github.com/user-attachments/assets/f5604e75-7b0e-4ed1-abb8-31858b1623ee" />
 <p/>
@@ -103,12 +107,12 @@ Here are some screenshots to confirm the results
 <img width="385" height="123" alt="Screenshot 2026-09-20 232948" src="https://github.com/user-attachments/assets/1089c7de-df02-493e-ac92-c6ce430b261e" />
 <p/>
 <p align=center">
-<i></i> Figure [4]: accessing edge router through ssh
+<i>Figure [4]: Accessing Edge-router through ssh </i>
 <p align=center">
 <img width="1342" height="551" alt="VPN" src="https://github.com/user-attachments/assets/999128d1-fc7e-4ada-a30c-b1cd3a245800" />
 <p/>
 <p align="center">
-<i></i> Figure [5]: Testing VPN connectivity between HQ and Branch 
+<i></i> Figure [5]: Testing VPN connectivity between HQ and Branch</i>
                                         
  
  
