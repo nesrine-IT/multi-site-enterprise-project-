@@ -103,12 +103,13 @@ The idea of the project has been realized:
 <i>Figure [3]: DHCP Server Configuration </i>
 </p>
 
-<p align=center">
+<p align="center">
 <img width="385" height="123" alt="Screenshot 2026-09-20 232948" src="https://github.com/user-attachments/assets/1089c7de-df02-493e-ac92-c6ce430b261e" />
 <p/>
-<p align=center">
+<p align="center">
 <i>Figure [4]: Accessing Edge-router through ssh </i>
-<p align=center">
+<p align="center">
+ 
 <img width="1342" height="551" alt="VPN" src="https://github.com/user-attachments/assets/999128d1-fc7e-4ada-a30c-b1cd3a245800" />
 <p/>
 <p align="center">
