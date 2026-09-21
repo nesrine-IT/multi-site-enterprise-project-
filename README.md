@@ -29,7 +29,7 @@ The Branch contains three Vlans for offices "HR,Accounting and Marketing" and an
 | WLAN| `192.168.99.0/24` |
 
 # Topology
-HeadQuarter Site : it consists of two access switches for and two Multi-Layer Switches (MLS) for inter-vlan routing .DHCP server  as a centralized service for automatically assigning IP configuration to devices, and a an edge router for external internet connexion.
+HeadQuarter Site : it consists of two access switches for plugging end devices and two Multi-Layer Switches (MLS) for inter-vlan routing .DHCP server  as a centralized service for automatically assigning IP configuration to devices, and a an edge router for external internet connexion.
 
 Branch Site : it consists of one switch to attach all vlans , one router that performs both inter-vlan and external internet routing and Access Point (AP) for wireless connection of laptops corresponding to each vlan to the network.
 
@@ -76,7 +76,7 @@ NAT is configured on internal and external interfaces of router to translate pri
 Access-lists are filter traffic ,to determine which vlans are allowed to use external networks , and which are allowed to access network devices through **ssh** , in this lab there are 3 necessary ACLs:
 * NAT access-list to allow users access internet using public IP for network security.
 * VPN access-list to allow users access site A and B ressources as they are in the same place using private IPs
-* SSH access-list to allow only management vlan access network devices.
+* SSH access-list to allow only management vlan access network devices remotely through ssh.
 ### Port-security
 port security are configured on access ports to allow only one device to be connected to switchport and its mac address is detected automatically while plugging the device.
 
@@ -84,17 +84,31 @@ port security are configured on access ports to allow only one device to be conn
 The idea of the project has been realized , vlans can ping withing the same LAN using  MLS in HQ and using router in branch site. end devices can be transmitted over external networks using NAT , and finally the multi-site main concept has worked where end devices in HQ can end devices in Branch using private IPs .
 Here are some screenshots to confirm the results 
 <p align="center">
-<img width="262" height="126" alt="Screenshot 2026-09-20 214058" src="https://github.com/user-attachments/assets/6562aac8-d702-4322-a274-987fd888efd6" />
- <p/>
+<img width="632" height="156" alt="Screenshot 2026-09-20 214105" src="https://github.com/user-attachments/assets/f5604e75-7b0e-4ed1-abb8-31858b1623ee" />
+<p/>
+ 
  <p align="center">
  <i>Figure [2]: HSRP Configuration on MLS1 </i>
 </p>
+
 <p=align"center">
 <img width="812" height="277" alt="Screenshot 2026-09-20 214251" src="https://github.com/user-attachments/assets/42c5eea2-e7ee-4da0-aaa1-0b25fc1e0109" />
  <p/>
+  
 <p align="center">
-<i>Figure [1]: DHCP Server Configuration </i>
+<i>Figure [3]: DHCP Server Configuration </i>
 </p>
+
+<p align=center">
+<img width="385" height="123" alt="Screenshot 2026-09-20 232948" src="https://github.com/user-attachments/assets/1089c7de-df02-493e-ac92-c6ce430b261e" />
+<p/>
+<p align=center">
+<i></i> Figure [4]: accessing edge router through ssh
+<p align=center">
+<img width="1342" height="551" alt="VPN" src="https://github.com/user-attachments/assets/999128d1-fc7e-4ada-a30c-b1cd3a245800" />
+<p/>
+<p align="center">
+<i></i> Figure [5]: Testing VPN connectivity between HQ and Branch 
                                         
  
  
